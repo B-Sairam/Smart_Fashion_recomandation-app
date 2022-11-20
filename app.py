@@ -29,11 +29,11 @@ def getOrders():
 
 
 
-@app.route("/logout")
+@app.route("/logout", methods=['GET', 'POST'])
 def logout():
-    return redirect("/")
+    return redirect("/", methods=['GET', 'POST'])
 
-@app.route("/addProductpage")
+@app.route("/addProductpage", methods=['GET', 'POST'])
 def addProductpage():
     return render_template('addProduct.html')
 
@@ -52,22 +52,22 @@ def delivery():
     return render_template('home.html', name=name, role=role, products=products, email=email,msg = "Product Dispatched Successfull to Customer !")
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def login():
     return render_template('login.html')
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register_Page():
     return render_template('register.html')
 
 
-@app.route('/home/<name>/<role>/<email>')
+@app.route('/home/<name>/<role>/<email>', methods=['GET', 'POST'])
 def home_Page(name,role,email):
     products= getList()
    
     return render_template('home.html', name=name, role=role, products=products ,email=email)
 
-@app.route('/back')
+@app.route('/back', methods=['GET', 'POST'])
 def back():
     name = session['user']
     role = session['role']
@@ -76,7 +76,7 @@ def back():
     return render_template('home.html', name=name, role=role, products=products, email=email)
 
 
-@app.route('/offerproduct')
+@app.route('/offerproduct', methods=['GET', 'POST'])
 def offProduct():
     products = getList()
     return render_template('offerproduct.html', products=products)
@@ -177,7 +177,7 @@ def loginUser():
             return render_template('login.html', msg="Incorrect Email / Password")
 
 
-@app.route('/setProduct/<id>')
+@app.route('/setProduct/<id>', methods=['GET', 'POST'])
 def viewProduct(id):
     sql = "SELECT * FROM PRODUCTS WHERE SUB1 =?"
     stmt = ibm_db.prepare(conn, sql)
@@ -220,7 +220,7 @@ def directBuy(id):
     return render_template('home.html', products=products, role=role,msg="Order placed successfull")
 
 
-@app.route('/addtocart/<id>')
+@app.route('/addtocart/<id>', methods=['GET', 'POST'])
 def addtocart(id):
     sql = "SELECT * FROM PRODUCTS WHERE SUB1 =?"
     stmt = ibm_db.prepare(conn, sql)
@@ -247,7 +247,7 @@ def addtocart(id):
 
     return redirect(url_for('viewProduct_', id=id))
 
-@app.route('/setProduct_/<id>')
+@app.route('/setProduct_/<id>', methods=['GET', 'POST'])
 def viewProduct_(id):
     sql = "SELECT * FROM PRODUCTS WHERE SUB1 =?"
     stmt = ibm_db.prepare(conn, sql)
@@ -259,7 +259,7 @@ def viewProduct_(id):
     return render_template('viewProduct.html', product=poduct, msg="Product Added Successfully")
 
 
-@app.route('/viewCart')
+@app.route('/viewCart', methods=['GET', 'POST'])
 def viewCart():
     products = session['cart']
     print(products[0]['name'])
